@@ -12,10 +12,6 @@ void exec_cd(char **argv)
                 perror("cd");
             }
         }
-        else
-        {
-            fprintf(stderr, "cd: HOME environment variable not set.\n");
-        }
     }
     else
     {
