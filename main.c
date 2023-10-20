@@ -33,7 +33,7 @@ int main(int ac, char **argv)
             perror("tsh: memory allocation error");
             break;
         }
-        strcpy(lineptr_copy, lineptr);
+        my_strcpy(lineptr_copy, lineptr);
 
         token = strtok(lineptr, delim);
 
@@ -50,8 +50,8 @@ int main(int ac, char **argv)
 
         for (i = 0; token != NULL; i++)
         {
-            argv[i] = malloc(sizeof(char) * strlen(token));
-            strcpy(argv[i], token);
+            argv[i] = malloc(sizeof(char) * my_strlen(token));
+            my_strcpy(argv[i], token);
 
             token = strtok(NULL, delim);
         }
