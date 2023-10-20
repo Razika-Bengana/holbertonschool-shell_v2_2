@@ -57,7 +57,14 @@ int main(int ac, char **argv)
         }
         argv[i] = NULL;
 
-        exec_cmd(argv);
+        if (my_strcmp(argv[0], "cd") == 0)
+        {
+            exec_cd(argv);
+        }
+        else
+        {
+            exec_cmd(argv);
+        }
 
         for (i = 0; argv[i] != NULL; i++)
         {
