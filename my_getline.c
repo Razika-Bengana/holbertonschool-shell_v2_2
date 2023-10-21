@@ -1,69 +1,63 @@
 #include "main.h"
 
-ssize_t my_getline(char **lineptr, size_t *n, FILE *stream)
+ssize_t my_getline(char **lineptr, size_t *n)
 {
-    char *buffer;
-    size_t bufsize;
-    size_t position = 0;
-    int ch;
+    size_t pos = 0;
+    size_t bufsize = 128;
+    char ch;
 
-    if (lineptr == NULL || n == NULL || stream == NULL)
+    if (lineptr == NULL || n == NULL)
     {
         errno = EINVAL;
-        return -1;
+        return (-1);
     }
 
     if (*lineptr == NULL)
     {
-        bufsize = 128;
-        buffer = malloc(bufsize * sizeof(char));
-        if (buffer == NULL)
+        *lineptr = malloc(bufsize);
+        if (*lineptr == NULL)
         {
-            return -1;
+            return (-1);
         }
-    }
-    else
-    {
-        buffer = *lineptr;
-        bufsize = *n;
+        *n = bufsize;
     }
 
     while (1)
     {
-        ch = fgetc(stream);
-
-        if (ch == EOF)
+        if (read(STDIN_FILENO, &ch, 1) <= 0) // Ligne modifiée
         {
-            if (position == 0)
+            if (pos == 0)
             {
                 return -1;
             }
-            buffer[position] = '\0';
-            *lineptr = buffer;
-            *n = bufsize;
-            return position;
+            (*lineptr)[pos] = '\0';
+            return pos;
         }
 
-        if (position >= bufsize - 1)
+        if (pos + 1 >= *n)
         {
             bufsize *= 2;
-            char *new_buffer = realloc(buffer, bufsize * sizeof(char));
-            if (new_buffer == NULL)
+            char *new_buf = malloc(bufsize);
+            if (new_buf == NULL)
             {
-                free(buffer);
                 return -1;
             }
-            buffer = new_buffer;
+
+            for (size_t i = 0; i < pos; ++i)
+            {
+                new_buf[i] = (*lineptr)[i];
+            }
+            free(*lineptr);
+            *lineptr = new_buf;
+            *n = bufsize;
         }
 
-        buffer[position++] = (char) ch;
+        (*lineptr)[pos++] = ch;
 
         if (ch == '\n')
         {
-            buffer[position] = '\0';
-            *lineptr = buffer;
-            *n = bufsize;
-            return position;
+            (*lineptr)[pos] = '\0';
+            return pos;
         }
     }
 }
