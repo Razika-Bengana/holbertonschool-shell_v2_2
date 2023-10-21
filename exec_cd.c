@@ -2,43 +2,34 @@
 
 void exec_cd(char **argv)
 {
+    char cwd[1024];
+
+    char *oldpwd = my_getenv("PWD");
+
     if (argv[1] == NULL)
     {
         char *home = my_getenv("HOME");
 
         if (home != NULL)
         {
-            if (chdir(home) != 0)
-            {
-                perror("cd");
-            }
-        }
-        else
-        {
-            return;
+            chdir(home);
         }
     }
     else if (my_strcmp(argv[1], "-") == 0)
     {
-        char *oldpwd = my_getenv("OLDPWD");
+        char *temp_oldpwd = my_getenv("OLDPWD");
 
-        if (oldpwd != NULL)
+        if (temp_oldpwd != NULL)
         {
-            if (chdir(oldpwd) != 0)
-            {
-                perror("cd");
-            }
-        }
-        else
-        {
-            return;
+            chdir(temp_oldpwd);
         }
     }
     else
     {
-        if (chdir(argv[1]) != 0)
-        {
-            perror("cd");
-        }
+        chdir(argv[1]);
     }
+
+    getcwd(cwd, sizeof(cwd));
+    my_setenv("PWD", cwd, 1);
+    my_setenv("OLDPWD", oldpwd, 1);
 }

@@ -4,9 +4,9 @@ ssize_t my_getline(char **lineptr, size_t *n, FILE *stream)
 {
     const size_t chunk_size = 128;
     size_t num_read = 0;
-    int c;
+    char c;
 
-    if (lineptr == NULL || n == NULL || stream == NULL)
+    if (lineptr == NULL || n == NULL || stream != stdin)
     {
         return -1;
     }
@@ -23,9 +23,9 @@ ssize_t my_getline(char **lineptr, size_t *n, FILE *stream)
 
     while (1)
     {
-        c = fgetc(stream);
+        ssize_t result = read(0, &c, 1);
 
-        if (c == EOF)
+        if (result <= 0)
         {
             if (num_read == 0)
             {
@@ -36,16 +36,23 @@ ssize_t my_getline(char **lineptr, size_t *n, FILE *stream)
 
         if (num_read + 1 >= *n)
         {
-            char *new_lineptr = realloc(*lineptr, *n + chunk_size);
+            char *new_lineptr = malloc(*n + chunk_size);
             if (new_lineptr == NULL)
             {
                 return -1;
             }
+
+            for (size_t i = 0; i < num_read; i++)
+            {
+                new_lineptr[i] = (*lineptr)[i];
+            }
+
+            free(*lineptr);
             *lineptr = new_lineptr;
             *n += chunk_size;
         }
 
-        (*lineptr)[num_read] = (char) c;
+        (*lineptr)[num_read] = c;
         num_read++;
 
         if (c == '\n')
@@ -56,5 +63,5 @@ ssize_t my_getline(char **lineptr, size_t *n, FILE *stream)
 
     (*lineptr)[num_read] = '\0';
 
-    return ((ssize_t) num_read);
+    return ((ssize_t)num_read);
 }

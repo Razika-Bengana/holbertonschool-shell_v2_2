@@ -19,6 +19,13 @@ char *get_location(char *command)
         {
             directory_length = my_strlen(path_token);
             file_path = malloc(command_length + directory_length + 2);
+
+            if (file_path == NULL)
+            {
+                perror("Allocation error");
+                exit(EXIT_FAILURE);
+            }
+
             my_strcpy(file_path, path_token);
             my_strcat(file_path, "/");
             my_strcat(file_path, command);
@@ -43,7 +50,6 @@ char *get_location(char *command)
         {
             return (command);
         }
-        return (NULL);
     }
     return (NULL);
 }

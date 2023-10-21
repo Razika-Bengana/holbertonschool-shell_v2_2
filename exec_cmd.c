@@ -14,6 +14,7 @@ void exec_cmd(char **argv)
         {
             perror("Error:");
         }
+        free(actual_command);
     }
 
 }
