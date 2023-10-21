@@ -28,15 +28,21 @@ int my_setenv(const char *name, const char *value, int overwrite)
         {
             if (overwrite)
             {
-                free(environ[i]);
-                environ[i] = malloc(name_len + value_len + 2);
                 if (environ[i] == NULL)
                 {
+                    fprintf(stderr, "environ[%d] is NULL\n", i);
                     return (-1);
                 }
-                my_strcat(my_strcat(my_strcat(environ[i], name), "="), value);
+                char *new_value = malloc(name_len + value_len + 2);
+
+                if (new_value == NULL)
+                {
+                    return -1;
+                }
+                my_strcat(my_strcat(my_strcat(new_value, name), "="), value);
+                environ[i] = new_value;
             }
-            return (0);
+            return 0;
         }
     }
 
@@ -54,13 +60,13 @@ int my_setenv(const char *name, const char *value, int overwrite)
     new_entry = malloc(name_len + value_len + 2);
     if (new_entry == NULL)
     {
+        free(new_environ);
         return (-1);
     }
     my_strcat(my_strcat(my_strcat(new_entry, name), "="), value);
     new_environ[env_len] = new_entry;
     new_environ[env_len + 1] = NULL;
 
-    free(environ);
     environ = new_environ;
 
     return (0);

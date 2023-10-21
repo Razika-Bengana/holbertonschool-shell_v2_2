@@ -10,7 +10,6 @@ ssize_t my_getline(char **lineptr, size_t *n, FILE *stream)
     {
         return -1;
     }
-
     if (*lineptr == NULL)
     {
         *lineptr = malloc(chunk_size);

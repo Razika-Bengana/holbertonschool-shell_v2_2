@@ -2,14 +2,13 @@
 
 int main(int ac, char **argv)
 {
-    char *prompt = "hsh $ ";
+    char *prompt = "(hsh) $ ";
     char *lineptr = NULL;
     size_t n = 0;
     ssize_t nchars_read;
     char *token;
     int num_tokens = 0;
     int i;
-
     (void)ac;
     (void)argv;
 
