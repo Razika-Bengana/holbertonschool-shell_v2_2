@@ -4,10 +4,9 @@ extern char **environ;
 
 int my_setenv(const char *name, const char *value, int overwrite)
 {
-    char *new_entry;
+    int i, env_len = 0;
     size_t name_len, value_len;
-    int i;
-    int env_len = 0;
+    char **new_environ;
 
     if (name == NULL || value == NULL || my_strchr(name, '=') != NULL)
     {
@@ -28,25 +27,20 @@ int my_setenv(const char *name, const char *value, int overwrite)
         {
             if (overwrite)
             {
-                if (environ[i] == NULL)
-                {
-                    fprintf(stderr, "environ[%d] is NULL\n", i);
-                    return (-1);
-                }
                 char *new_value = malloc(name_len + value_len + 2);
-
                 if (new_value == NULL)
                 {
                     return -1;
                 }
-                my_strcat(my_strcat(my_strcat(new_value, name), "="), value);
+                sprintf(new_value, "%s=%s", name, value);
+                free(environ[i]);
                 environ[i] = new_value;
             }
-            return 0;
+            return (0);
         }
     }
 
-    char **new_environ = malloc(sizeof(char *) * (env_len + 2));
+    new_environ = malloc((env_len + 2) * sizeof(char *));
     if (new_environ == NULL)
     {
         return (-1);
@@ -57,16 +51,20 @@ int my_setenv(const char *name, const char *value, int overwrite)
         new_environ[i] = environ[i];
     }
 
-    new_entry = malloc(name_len + value_len + 2);
-    if (new_entry == NULL)
+    new_environ[env_len] = malloc(name_len + value_len + 2);
+    if (new_environ[env_len] == NULL)
     {
         free(new_environ);
         return (-1);
     }
-    my_strcat(my_strcat(my_strcat(new_entry, name), "="), value);
-    new_environ[env_len] = new_entry;
+
+    sprintf(new_environ[env_len], "%s=%s", name, value);
     new_environ[env_len + 1] = NULL;
 
+    if (environ != NULL)
+    {
+        free(environ);
+    }
     environ = new_environ;
 
     return (0);
