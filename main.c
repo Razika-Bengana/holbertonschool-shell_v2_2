@@ -1,8 +1,10 @@
 #include "main.h"
 
+ssize_t getline(char **pString, size_t *pInt, FILE *pIobuf);
+
 int main(int ac, char **argv)
 {
-    char *prompt = "hsh $ ";
+    char *prompt = "(hsh) $ ";
     char *lineptr = NULL;
     size_t n = 0;
     ssize_t nchars_read;
