@@ -63,7 +63,7 @@ void exec_cd(char **argv)
         }
         else
         {
-            perror("cd");
+            fprintf(stderr, "./hsh: 1: cd: can't cd to %s\n", argv[1]);
         }
     }
 
