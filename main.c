@@ -1,7 +1,5 @@
 #include "main.h"
 
-ssize_t getline(char **pString, size_t *pInt, FILE *pIobuf);
-
 int main(int ac, char **argv)
 {
     char *prompt = "hsh $ ";
@@ -19,7 +17,7 @@ int main(int ac, char **argv)
     while (1)
     {
         printf("%s", prompt);
-        nchars_read = getline(&lineptr, &n, stdin);
+        nchars_read = my_getline(&lineptr, &n, stdin);
         /* Check if the getline function failed or reached EOF, or if the user use CTRL + D */
         if (nchars_read == -1)
         {
