@@ -30,10 +30,9 @@ int my_setenv(const char *name, const char *value, int overwrite)
                 char *new_value = malloc(name_len + value_len + 2);
                 if (new_value == NULL)
                 {
-                    return -1;
+                    return (-1);
                 }
                 sprintf(new_value, "%s=%s", name, value);
-                free(environ[i]);
                 environ[i] = new_value;
             }
             return (0);
@@ -61,10 +60,6 @@ int my_setenv(const char *name, const char *value, int overwrite)
     sprintf(new_environ[env_len], "%s=%s", name, value);
     new_environ[env_len + 1] = NULL;
 
-    if (environ != NULL)
-    {
-        free(environ);
-    }
     environ = new_environ;
 
     return (0);
