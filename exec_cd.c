@@ -15,7 +15,7 @@ void exec_cd(char **argv)
         }
         else
         {
-            fprintf(stderr, "cd: HOME environment variable not set.\n");
+            return;
         }
     }
     else if (my_strcmp(argv[1], "-") == 0)
@@ -31,7 +31,7 @@ void exec_cd(char **argv)
         }
         else
         {
-            fprintf(stderr, "cd: OLDPWD environment variable not set.\n");
+            return;
         }
     }
     else
