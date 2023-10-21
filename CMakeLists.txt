@@ -18,5 +18,4 @@ add_executable(main.c
         my_strcmp.c
         my_setenv.c
         my_strchr.c
-        my_getline.c
 )
