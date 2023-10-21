@@ -30,10 +30,6 @@ void exec_cd(char **argv)
                 perror("cd");
             }
         }
-        else
-        {
-            fprintf(stderr, "cd: HOME not set\n");
-        }
     }
     else if (my_strcmp(argv[1], "-") == 0)
     {
