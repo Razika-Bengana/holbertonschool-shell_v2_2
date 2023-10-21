@@ -1,63 +1,66 @@
 #include "main.h"
 
-ssize_t my_getline(char **lineptr, size_t *n)
+ssize_t my_getline(char **lineptr, size_t *n, FILE *stream)
 {
-    size_t pos = 0;
-    size_t bufsize = 128;
-    char ch;
+    const size_t chunk_size = 128;
+    size_t num_read = 0;
+    char c;
 
-    if (lineptr == NULL || n == NULL)
+    if (lineptr == NULL || n == NULL || stream != stdin)
     {
-        errno = EINVAL;
-        return (-1);
+        return -1;
     }
-
     if (*lineptr == NULL)
     {
-        *lineptr = malloc(bufsize);
+        *lineptr = malloc(chunk_size);
         if (*lineptr == NULL)
         {
-            return (-1);
+            return -1;
         }
-        *n = bufsize;
+        *n = chunk_size;
     }
 
     while (1)
     {
-        if (read(STDIN_FILENO, &ch, 1) <= 0) // Ligne modifiée
+        ssize_t result = read(0, &c, 1);
+
+        if (result <= 0)
         {
-            if (pos == 0)
+            if (num_read == 0)
             {
                 return -1;
             }
-            (*lineptr)[pos] = '\0';
-            return pos;
+            break;
         }
 
-        if (pos + 1 >= *n)
+        if (num_read + 1 >= *n)
         {
-            bufsize *= 2;
-            char *new_buf = malloc(bufsize);
-            if (new_buf == NULL)
+            char *new_lineptr = malloc(*n + chunk_size);
+            if (new_lineptr == NULL)
             {
                 return -1;
             }
 
-            for (size_t i = 0; i < pos; ++i)
+            for (size_t i = 0; i < num_read; i++)
             {
-                new_buf[i] = (*lineptr)[i];
+                new_lineptr[i] = (*lineptr)[i];
             }
+
             free(*lineptr);
-            *lineptr = new_buf;
-            *n = bufsize;
+            *lineptr = new_lineptr;
+            *n += chunk_size;
         }
 
-        (*lineptr)[pos++] = ch;
+        (*lineptr)[num_read] = c;
+        num_read++;
 
-        if (ch == '\n')
+        if (c == '\n')
         {
-            (*lineptr)[pos] = '\0';
-            return pos;
+            break;
         }
     }
+
+    (*lineptr)[num_read] = '\0';
+
+    return ((ssize_t)num_read);
 }
