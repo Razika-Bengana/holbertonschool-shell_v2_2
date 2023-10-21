@@ -44,10 +44,6 @@ void exec_cd(char **argv)
                 perror("cd");
             }
         }
-        else
-        {
-            fprintf(stderr, "cd: OLDPWD not set\n");
-        }
     }
     else
     {
