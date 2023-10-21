@@ -11,7 +11,6 @@ int main(int ac, char **argv)
     char *token;
     int num_tokens = 0;
     int i;
-
     (void)ac;
     (void)argv;
 
