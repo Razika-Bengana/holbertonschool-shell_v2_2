@@ -1,6 +1,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+#define _GNU_SOURCE
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,6 +10,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <errno.h>
 
 void exec_cmd(char **argv);
 void exec_cd(char **argv);
@@ -24,10 +26,6 @@ char *my_strchr(const char *s, int c);
 
 char *my_getenv(const char *name);
 int my_setenv(const char *name, const char *value, int overwrite);
-
-ssize_t my_getline(char **lineptr, size_t *n, FILE *stream);
-
-
 
 
 #endif /* MAIN_H */
