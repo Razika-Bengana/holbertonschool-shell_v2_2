@@ -3,7 +3,7 @@ CC = gcc
 CFLAGS = -Wall -pedantic -Werror -Wextra -std=c99
 
 # Source files and object files
-SRCS = main.c exec_cmd.c get_location.c exec_cd.c my_strcpy.c my_strcat.c my_strlen.c my_strdup.c my_strchr.c my_strncmp.c my_strcmp.c my_getenv.c my_setenv.c
+SRCS = main.c exec_cmd.c get_location.c exec_cd.c my_strcpy.c my_strcat.c my_strlen.c my_strdup.c my_strchr.c my_strncmp.c my_strcmp.c my_getenv.c my_setenv.c my_getline.c
 OBJS = $(SRCS:.c=.o)
 DEPS = main.h
 

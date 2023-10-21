@@ -23,7 +23,7 @@ int main(int ac, char **argv)
             printf("%s", prompt);
         }
 
-        nchars_read = getline(&lineptr, &n, stdin);
+        nchars_read = my_getline(&lineptr, &n);
 
         if (nchars_read == -1)
         {

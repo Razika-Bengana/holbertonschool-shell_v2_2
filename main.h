@@ -22,6 +22,8 @@ int my_strncmp(const char *s1, const char *s2, size_t n);
 int my_strcmp(const char *s1, const char *s2);
 char *my_strchr(const char *s, int c);
 
+ssize_t my_getline(char **lineptr, size_t *n);
+
 char *my_getenv(const char *name);
 int my_setenv(const char *name, const char *value, int overwrite);
 
