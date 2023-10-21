@@ -17,7 +17,10 @@ int main(int ac, char **argv)
 
     while (1)
     {
-        printf("%s", prompt);
+        if (isatty(STDIN_FILENO))
+        {
+            printf("%s", prompt);
+        }
 
         nchars_read = getline(&lineptr, &n, stdin);
 
