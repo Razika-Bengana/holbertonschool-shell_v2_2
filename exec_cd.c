@@ -38,6 +38,15 @@ void exec_cd(char **argv)
             if(chdir(oldpwd) == 0)
             {
                 my_setenv("OLDPWD", new_oldpwd, 1);
+
+                if (getcwd(cwd, sizeof(cwd)) != NULL)
+                {
+                    my_setenv("PWD", cwd, 1);
+                }
+                else
+                {
+                    perror("getcwd");
+                }
             }
             else
             {
