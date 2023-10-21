@@ -37,6 +37,7 @@ void exec_cd(char **argv)
         {
             if(chdir(oldpwd) == 0)
             {
+                printf("%s\n", oldpwd);
                 my_setenv("OLDPWD", new_oldpwd, 1);
 
                 if (getcwd(cwd, sizeof(cwd)) != NULL)
