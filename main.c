@@ -1,5 +1,7 @@
 #include "main.h"
 
+ssize_t getline(char **pString, size_t *pInt, FILE *pIobuf);
+
 
 int main(int ac, char **argv)
 {
@@ -15,12 +17,9 @@ int main(int ac, char **argv)
 
     while (1)
     {
-        if (isatty(STDIN_FILENO))
-        {
-            printf("%s", prompt);
-        }
+        printf("%s", prompt);
 
-        nchars_read = my_getline(&lineptr, &n);
+        nchars_read = getline(&lineptr, &n, stdin);
 
         if (nchars_read == -1)
         {
