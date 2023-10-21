@@ -5,10 +5,17 @@ void exec_cd(char **argv)
     char cwd[1024];
     char *oldpwd = my_getenv("OLDPWD");
     char *home = my_getenv("HOME");
-    char *new_oldpwd;
+    char *new_oldpwd = NULL;
 
-    getcwd(cwd, sizeof(cwd));
-    new_oldpwd = my_strdup(cwd);
+    if (getcwd(cwd, sizeof(cwd)) != NULL)
+    {
+        new_oldpwd = my_strdup(cwd);
+    }
+    else
+    {
+        perror("getcwd");
+        return;
+    }
 
     if (argv[1] == NULL)
     {
@@ -58,7 +65,17 @@ void exec_cd(char **argv)
         }
     }
 
-    free(new_oldpwd);
-    getcwd(cwd, sizeof(cwd));
-    my_setenv("PWD", cwd, 1);
+    if (new_oldpwd)
+    {
+        free(new_oldpwd);
+    }
+
+    if (getcwd(cwd, sizeof(cwd)) != NULL)
+    {
+        my_setenv("PWD", cwd, 1);
+    }
+    else
+    {
+        perror("getcwd");
+    }
 }
