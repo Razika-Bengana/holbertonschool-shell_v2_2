@@ -74,7 +74,6 @@ void exec_cd(char **argv)
             fprintf(stderr, "./hsh: 1: cd: can't cd to %s\n", argv[1]);
         }
     }
-
     if (new_oldpwd)
     {
         free(new_oldpwd);
