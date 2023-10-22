@@ -8,6 +8,11 @@ int my_setenv(const char *name, const char *value, int overwrite)
     size_t name_len, value_len;
     char **new_environ;
 
+    if (name == NULL || value == NULL || strlen(name) == 0)
+    {
+        return (-1);
+    }
+
     if (name == NULL || value == NULL || my_strchr(name, '=') != NULL)
     {
         return (-1);

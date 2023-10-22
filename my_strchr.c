@@ -1,24 +1,15 @@
 #include "main.h"
 
 
-char *my_strchr(const char *s, int c)
+char* my_strchr(const char* str, int c)
 {
-    if (s == NULL)
+    while (*str != '\0')
     {
-        return NULL;
-    }
-    while (*s != '\0')
-    {
-        if (*s == (char)c)
+        if (*str == c)
         {
-            return (char *)s;
+            return (char*)str;
         }
-        s++;
+        str++;
     }
-
-    if (*s == (char)c)
-    {
-        return (char *)s;
-    }
-    return (NULL);
+    return NULL;
 }
