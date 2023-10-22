@@ -38,10 +38,7 @@ int my_setenv(const char *name, const char *value, int overwrite)
                     return (-1);
                 }
                 sprintf(new_value, "%s=%s", name, value);
-                if (environ[i] != NULL)
-                {
-                    free(environ[i]);
-                }
+                free(environ[i]);
                 environ[i] = new_value;
             }
             return (0);
