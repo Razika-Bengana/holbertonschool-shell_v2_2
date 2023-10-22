@@ -4,7 +4,6 @@ void exec_cd(char **argv)
 {
     char cwd[1024];
     char *oldpwd = my_getenv("OLDPWD");
-    char *home = my_getenv("HOME");
     char *new_oldpwd = NULL;
 
     if (getcwd(cwd, sizeof(cwd)) != NULL)
@@ -17,12 +16,14 @@ void exec_cd(char **argv)
         return;
     }
 
-    if (argv[1] == NULL)
+    if (argv[1] == NULL || strcmp(argv[1], "-") == 0)
     {
-        if (home != NULL)
+        if (oldpwd != NULL)
         {
-            if(chdir(home) == 0)
+            if(chdir(oldpwd) == 0)
             {
+                printf("%s\n", oldpwd);
+                my_setenv("PWD", oldpwd, 1);
                 my_setenv("OLDPWD", new_oldpwd, 1);
             }
             else
@@ -31,29 +32,9 @@ void exec_cd(char **argv)
             }
         }
     }
-    else if (my_strcmp(argv[1], "-") == 0)
+    else if (my_strcmp(argv[1], "--") == 0)
     {
-        if (oldpwd != NULL)
-        {
-            if(chdir(oldpwd) == 0)
-            {
-                printf("%s\n", oldpwd);
-                my_setenv("OLDPWD", new_oldpwd, 1);
-
-                if (getcwd(cwd, sizeof(cwd)) != NULL)
-                {
-                    my_setenv("PWD", cwd, 1);
-                }
-                else
-                {
-                    perror("getcwd");
-                }
-            }
-            else
-            {
-                perror("cd");
-            }
-        }
+        /* Nothing to do */
     }
     else
     {
