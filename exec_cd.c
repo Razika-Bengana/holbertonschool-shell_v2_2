@@ -32,7 +32,7 @@ void exec_cd(char **argv)
             }
         }
     }
-    else if (strcmp(argv[1], "-") == 0)
+    else if (my_strcmp(argv[1], "-") == 0)
     {
         if (oldpwd != NULL)
         {
