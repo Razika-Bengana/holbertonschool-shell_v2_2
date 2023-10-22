@@ -11,5 +11,5 @@ char* my_strchr(const char* str, int c)
         }
         str++;
     }
-    return NULL;
+    return (NULL);
 }
