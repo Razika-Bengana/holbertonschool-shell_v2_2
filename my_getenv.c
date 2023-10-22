@@ -11,7 +11,6 @@ char *my_getenv(const char *name)
     {
         return (NULL);
     }
-
     name_len = my_strlen(name);
 
     for (i = 0; environ[i] != NULL; i++)
